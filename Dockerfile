@@ -2,12 +2,14 @@ FROM python:3.7.3-alpine
 
 WORKDIR /usr/src/app
 
-RUN pip install pipenv
 COPY Pipfile Pipfile.lock ./
-RUN pipenv install
+RUN pip install pipenv \
+    && pipenv install \
+    && pipenv run pip freeze > requirements.txt \
+    && pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 8080
 
-CMD ["pipenv", "run", "flask", "run"]
+CMD ["python3", "app.py"]
