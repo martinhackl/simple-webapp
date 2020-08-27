@@ -1,11 +1,10 @@
-FROM python:3.7.3-alpine
+FROM python:3.8-alpine
 
 WORKDIR /usr/src/app
 
 COPY Pipfile Pipfile.lock ./
 RUN pip install pipenv \
-    && pipenv install \
-    && pipenv run pip freeze > requirements.txt \
+    && pipenv lock --requirements > requirements.txt \
     && pip install -r requirements.txt
 
 COPY . .
